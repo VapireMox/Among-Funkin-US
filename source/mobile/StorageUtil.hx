@@ -182,7 +182,7 @@ enum abstract StorageType(String) from String to String
 		final EXTERNAL_DATA = forcedPath + 'Android/data/' + packageNameLocal + '/files';
 		final EXTERNAL_OBB = forcedPath + 'Android/obb/' + packageNameLocal;
 		final EXTERNAL_MEDIA = forcedPath + 'Android/media/' + packageNameLocal;
-		final EXTERNAL = forcedPath + '.' + fileLocal + '0.6.3';
+		final EXTERNAL = forcedPath + '.' + fileLocal;
 		final EXTERNAL_GLOBAL = forcedPath + '.' + fileLocal;
 
 		return switch (str)
