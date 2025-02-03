@@ -4,6 +4,8 @@ import flixel.FlxSprite;
 import flixel.addons.display.FlxBackDrop;
 
 class MainMenuState extends MusicBeatState {
+  public static var psychEngineVersion:String = "0.6.3-special";
+  
   //星空
   var starrySky:FlxBackDrop;
   var panelBG:FlxSprite;
