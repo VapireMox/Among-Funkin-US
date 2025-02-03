@@ -1,0 +1,36 @@
+package;
+
+import flixel.FlxSprite;
+import flixel.addons.display.FlxBackDrop;
+
+class MainMenuState extends MusicBeatState {
+  //星空
+  var starrySky:FlxBackDrop;
+  var panelBG:FlxSprite;
+  var blank:FlxSprite;
+  var charTopState:FlxSprite;
+  var logo:FlxSprite;
+
+  var buttons:Map<String, FlxSprite>;
+  var asChars:Array<FlxSprite>;
+  
+  override function create() {
+    super.create();
+
+    starrySky = new FlxBackDrop(Paths.image("mainmenu/StarrySky"));
+    starrySky.setGraphicSize(FlxG.width, FlxG.height);
+    starrySky.updateHitbox();
+    starrySky.scrollFactor.set();
+    add(starrySky);
+
+    panelBG = new FlxSprite().loadGraphic(Paths.image("mainmenu/panelBG"));
+    panelBG.setGraphicSize(FlxG.width, FlxG.height);
+    panelBG.updateHitbox();
+    panelBG.scrollFactor.set();
+    add(panelBG);
+  }
+
+  override function update(elapsed:Float) {
+    super.update(elapsed);
+  }
+}
