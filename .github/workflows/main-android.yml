@@ -10,8 +10,8 @@ jobs:
         include:
           - name: Android
             os: ubuntu-22.04
-            buildArgs: "android -ONLY_ARMV7"
-            artifactName: androidBuild
+            buildArgs: "android"
+            artifactName: android-AFUS
             artifactPath: "export/release/android/bin/app/build/outputs/apk/release/*.apk"
     uses: ./.github/workflows/build.yml
     with:
