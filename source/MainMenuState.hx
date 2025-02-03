@@ -1,13 +1,13 @@
 package;
 
 import flixel.FlxSprite;
-import flixel.addons.display.FlxBackDrop;
+import flixel.addons.display.FlxBackdrop;
 
 class MainMenuState extends MusicBeatState {
   public static var psychEngineVersion:String = "0.6.3-special";
   
   //星空
-  var starrySky:FlxBackDrop;
+  var starrySky:FlxBackdrop;
   var panelBG:FlxSprite;
   var blank:FlxSprite;
   var charTopState:FlxSprite;
@@ -19,7 +19,7 @@ class MainMenuState extends MusicBeatState {
   override function create() {
     super.create();
 
-    starrySky = new FlxBackDrop(Paths.image("mainmenu/StarrySky"));
+    starrySky = new FlxBackdrop(Paths.image("mainmenu/StarrySky"));
     starrySky.setGraphicSize(FlxG.width, FlxG.height);
     starrySky.updateHitbox();
     starrySky.scrollFactor.set();
