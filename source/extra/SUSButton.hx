@@ -16,7 +16,7 @@ class SUSButton extends FlxSprite {
 
   private var callEffect:CallEffect;
 
-  private var scaleNB:Float = 0.1;
+  private var scaleNB:Float = 0.05;
   
   public function new(?x:Float = 0, ?y:Float = 0, graphic:FlxGraphicAsset, ?callEffect:CallEffect = NORMAL) {
     super(x, y);
@@ -41,19 +41,19 @@ class SUSButton extends FlxSprite {
   private function onMouseOver(obj:FlxSprite) {
     switch(this.callEffect) {
         case NORMAL:
-          FlxTween.tween(scale, {x: defaultScale.x + scaleNB, y: defaultScale.y + scaleNB}, 0.15, {ease: FlxEase.circIn});
+          FlxTween.tween(scale, {x: defaultScale.x + scaleNB, y: defaultScale.y + scaleNB}, 0.12, {ease: FlxEase.circIn});
     }
   }
 
   private function onMouseOut(obj:FlxSprite) {
     switch(this.callEffect) {
         case NORMAL:
-          FlxTween.tween(scale, {x: defaultScale.x, y: defaultScale.y}, 0.15, {ease: FlxEase.circOut});
+          FlxTween.tween(scale, {x: defaultScale.x, y: defaultScale.y}, 0.12, {ease: FlxEase.circOut});
     }
   }
 
   private function huiTang(tween:FlxTween) {
-    FlxTween.tween(scale, {x: defaultScale.x, y: defaultScale.y}, 0.15, {ease: FlxEase.quadOut, onComplete: clickCallback});
+    FlxTween.tween(scale, {x: defaultScale.x, y: defaultScale.y}, 0.08, {ease: FlxEase.quadOut, onComplete: clickCallback});
   }
 }
 
