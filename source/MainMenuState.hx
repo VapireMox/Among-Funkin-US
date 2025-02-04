@@ -23,6 +23,8 @@ class MainMenuState extends MusicBeatState {
   override function create() {
     super.create();
 
+    if(!FlxG.mouse.visible) FlxG.mouse.visible = true;
+
     starrySky = new FlxBackdrop(Paths.image("mainmenu/StarrySky"));
     starrySky.setGraphicSize(FlxG.width, FlxG.height);
     starrySky.updateHitbox();
