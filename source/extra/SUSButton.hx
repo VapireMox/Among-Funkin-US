@@ -5,9 +5,12 @@ import flixel.input.mouse.FlxMouseEventManager;
 import flixel.system.FlxAssets;
 import flixel.tweens.FlxTween;
 import flixel.tweens.FlxEase;
+import flixel.maths.FlxPoint;
 
 class SUSButton extends FlxSprite {
   public static var groupName:Array<String> = [""];
+
+  public var defaultScale:FlxPoint = FlxPoint.get(1, 1);
 
   public var clickCallback:Dynamic = null;
 
@@ -23,29 +26,34 @@ class SUSButton extends FlxSprite {
     FlxMouseEventManager.add(this, onMouseDown, null, onMouseOver, onMouseOut);
   }
 
+  public override function updateHitbox() {
+    defaultScale.set(this.scale.x, this.scale.y);
+    super.updateHitbox();
+  }
+
   private function onMouseDown(obj:FlxSprite) {
     switch(this.callEffect) {
         case NORMAL:
-          FlxTween.tween(scale, {x: 1 - scaleNB, y: 1 - scaleNB}, 0.15, {ease: FlxEase.quadIn, onComplete: huiTang});
+          FlxTween.tween(scale, {x: defaultScale.x - scaleNB, y: defaultScale.y - scaleNB}, 0.15, {ease: FlxEase.quadIn, onComplete: huiTang});
     }
   }
 
   private function onMouseOver(obj:FlxSprite) {
     switch(this.callEffect) {
         case NORMAL:
-          FlxTween.tween(scale, {x: 1 + scaleNB, y: 1 + scaleNB}, 0.15, {ease: FlxEase.circIn});
+          FlxTween.tween(scale, {x: defaultScale.x + scaleNB, y: defaultScale.y + scaleNB}, 0.15, {ease: FlxEase.circIn});
     }
   }
 
   private function onMouseOut(obj:FlxSprite) {
     switch(this.callEffect) {
         case NORMAL:
-          FlxTween.tween(scale, {x: 1, y: 1}, 0.15, {ease: FlxEase.circOut});
+          FlxTween.tween(scale, {x: defaultScale.x, y: defaultScale.y}, 0.15, {ease: FlxEase.circOut});
     }
   }
 
   private function huiTang(tween:FlxTween) {
-    FlxTween.tween(scale, {x: 1, y: 1}, 0.15, {ease: FlxEase.quadOut, onComplete: clickCallback});
+    FlxTween.tween(scale, {x: defaultScale.x, y: defaultScale.y}, 0.15, {ease: FlxEase.quadOut, onComplete: clickCallback});
   }
 }
 
