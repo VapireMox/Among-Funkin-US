@@ -5,7 +5,6 @@ import flixel.group.FlxSpriteGroup;
 import flixel.FlxG;
 import flixel.FlxSprite;
 import flixel.addons.display.FlxBackdrop;
-import tjson.TJSON;
 import openfl.Assets;
 
 class MainMenuState extends MusicBeatState {
@@ -26,7 +25,7 @@ class MainMenuState extends MusicBeatState {
   override function create() {
     super.create();
 
-    debugJson = cast(TJSON.parse(Assets.getText(Paths.json("mainmenu"))), DebugJson);
+    debugJson = cast(haxe.Json.parse(Assets.getText(Paths.json("mainmenu"))), DebugJson);
 
     starrySky = new FlxBackdrop(Paths.image("mainmenu/StarrySky"));
     starrySky.setGraphicSize(FlxG.width, FlxG.height);
