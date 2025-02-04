@@ -20,7 +20,7 @@ class SUSButton extends FlxSprite {
 
     loadGraphic(graphic);
     this.callEffect = callEffect;
-    FlxMouseEvent(this, onMouseDown, null, onMouseOver, onMouseOut);
+    FlxMouseEvent.add(this, onMouseDown, null, onMouseOver, onMouseOut);
   }
 
   private function onMouseDown(obj:FlxSprite) {
