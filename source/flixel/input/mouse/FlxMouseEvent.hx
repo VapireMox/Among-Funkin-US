@@ -181,4 +181,69 @@ class FlxMouseEvent<T:FlxObject> implements IFlxDestroyable
 	}
 
 	/**
-	 * Checks 
+	 * Checks if an object allows mouseChildren.
+	 */
+	public static inline function isObjectMouseChildren<T:FlxObject>(object:T):Bool
+	{
+		return globalManager.isObjectMouseChildren(object);
+	}
+
+	/**
+	 * @param   mouseButtons    The mouse buttons that can trigger callbacks. Left only by default.
+	 */
+	public static inline function setObjectMouseButtons<T:FlxObject>(object:T, mouseButtons:Array<FlxMouseButtonID>):Void
+	{
+		globalManager.setObjectMouseButtons(object, mouseButtons);
+	}
+
+	public var object:FlxObject;
+	public var onMouseDown:T->Void;
+	public var onMouseUp:T->Void;
+	public var onMouseClick:T->Void;
+	public var onMouseDoubleClick:T->Void;
+	public var onMouseOver:T->Void;
+	public var onMouseOut:T->Void;
+	public var onMouseMove:T->Void;
+	public var onMouseWheel:T->Void;
+	public var mouseChildren:Bool;
+	public var mouseEnabled:Bool;
+	public var pixelPerfect:Bool;
+	public var sprite:FlxSprite;
+	public var mouseButtons:Array<FlxMouseButtonID>;
+	public var currentMouseButton:Null<FlxMouseButtonID>;
+
+	@:allow(flixel.input.mouse.FlxMouseEventManager)
+	function new(object:T, onMouseDown:T->Void, onMouseUp:T->Void, onMouseOver:T->Void, onMouseOut:T->Void,
+		mouseChildren:Bool, mouseEnabled:Bool, pixelPerfect:Bool, mouseButtons:Null<Array<FlxMouseButtonID>>)
+	{
+		this.object = object;
+		this.onMouseDown = onMouseDown;
+		this.onMouseUp = onMouseUp;
+		this.onMouseOver = onMouseOver;
+		this.onMouseOut = onMouseOut;
+		this.mouseChildren = mouseChildren;
+		this.mouseEnabled = mouseEnabled;
+		this.pixelPerfect = pixelPerfect;
+		this.mouseButtons = (mouseButtons == null) ? [FlxMouseButtonID.LEFT] : mouseButtons;
+
+		if ((object is FlxSprite))
+		{
+			sprite = cast object;
+		}
+	}
+
+	public function destroy():Void
+	{
+		object = null;
+		sprite = null;
+		onMouseDown = null;
+		onMouseUp = null;
+		onMouseClick = null;
+		onMouseDoubleClick = null;
+		onMouseOver = null;
+		onMouseOut = null;
+		onMouseMove = null;
+		onMouseWheel = null;
+		mouseButtons = null;
+	}
+}
