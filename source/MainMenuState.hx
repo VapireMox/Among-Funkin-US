@@ -49,7 +49,7 @@ class MainMenuState extends MusicBeatState {
 
     charTopState = new FlxSprite(-1, -90).loadGraphic(Paths.image("mainmenu/CharTopState"));
     charTopState.scrollFactor.set();
-    charTopState.scale.set(0.2, 0.4);
+    charTopState.scale.set(0.4, 0.2);
     charTopState.updateHitbox();
     add(charTopState);
 
@@ -70,7 +70,7 @@ class MainMenuState extends MusicBeatState {
     var jiange:Float = 0;
 
     for(num=>buttonName in buttonNames) {
-      var button:SUSButton = new SUSButton(25, (50 + num * 100 + (num != 0 ? 1 : 0)), 0.32, 0.32, Paths.image('mainmenu/${buttonName}Button'));
+      var button:SUSButton = new SUSButton(55, (150 + num * 100 + (num != 0 ? 1 : 0)), 0.32, 0.32, Paths.image('mainmenu/${buttonName}Button'));
       //button.scale.set(0.3, 0.3);
       //button.defaultScale.set(button.scale.x, button.scale.y);
       //button.updateHitbox();
