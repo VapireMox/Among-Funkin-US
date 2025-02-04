@@ -44,7 +44,6 @@ class MainMenuState extends MusicBeatState {
     add(blank);
 
     buttons = new FlxTypedGroup<SUSButton>();
-    buttons.scrollFactor.set();
     createButtons();
     add(buttons);
 
@@ -71,7 +70,7 @@ class MainMenuState extends MusicBeatState {
     var jiange:Float = 0;
 
     for(num=>buttonName in buttonNames) {
-      var button:SUSButton = new SUSButton(25, (50 + num * button.height + (num != 0 ? 1 : 0)), 0.32, 0.32, Paths.image('mainmenu/${buttonName}Button'));
+      var button:SUSButton = new SUSButton(25, (50 + num * 100 + (num != 0 ? 1 : 0)), 0.32, 0.32, Paths.image('mainmenu/${buttonName}Button'));
       //button.scale.set(0.3, 0.3);
       //button.defaultScale.set(button.scale.x, button.scale.y);
       //button.updateHitbox();
