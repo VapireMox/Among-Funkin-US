@@ -1,7 +1,7 @@
 package extra;
 
 import flixel.FlxSprite;
-import flixel.inputs.mouse.FlxMouseEvent;
+import flixel.input.mouse.FlxMouseEvent;
 import flixel.system.FlxAssets;
 import flixel.tweens.FlxTween;
 import flixel.tweens.FlxEase;
