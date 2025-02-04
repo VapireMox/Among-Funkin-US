@@ -5,7 +5,7 @@ import flixel.input.mouse.FlxMouseEventManager;
 import flixel.system.FlxAssets;
 import flixel.tweens.FlxTween;
 import flixel.tweens.FlxEase;
-import flixel.maths.FlxPoint;
+import flixel.math.FlxPoint;
 
 class SUSButton extends FlxSprite {
   public static var groupName:Array<String> = [""];
