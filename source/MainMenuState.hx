@@ -1,5 +1,7 @@
 package;
 
+import extra.SUSButton;
+import flixel.group.FlxSpriteGroup;
 import flixel.FlxG;
 import flixel.FlxSprite;
 import flixel.addons.display.FlxBackdrop;
@@ -14,7 +16,7 @@ class MainMenuState extends MusicBeatState {
   var charTopState:FlxSprite;
   var logo:FlxSprite;
 
-  var buttons:Map<String, FlxSprite>;
+  var buttons:SUSButtonGroup;
   var asChars:Array<FlxSprite>;
   
   override function create() {
@@ -31,13 +33,39 @@ class MainMenuState extends MusicBeatState {
     panelBG.updateHitbox();
     panelBG.scrollFactor.set();
     add(panelBG);
+
+    blank = new FlxSprite(50, 100).loadGraphic(Paths.image("mainmenu/blank"));
+    blank.scrollFactor.set();
+    add(blank);
+
+    buttons = new FlxTypedSpriteGroup(blank.x, blank.y);
+    blank.scrollFactor.set();
+    createButtons();
+    add(buttons);
+
+    charTopState = new FlxSprite().loadGraphic(Paths.image("mainmenu/CharTopState"));
+    charTopState.scrollFactor.set();
+    add(charTopState);
+
+    logo = new FlxSprite().loadGraphic(Paths.image("mainmenu/MainLOGO"));
+    logo.scrollFactor.set();
+
+    logo.x = FlxG.width - logo.width;
+    add(logo);
   }
 
   override function update(elapsed:Float) {
     super.update(elapsed);
   }
 
-  private function createButtons(ar:Array<String>) {
-    
+  private function createButtons() {
+    var buttonNames:Array<String> = ["SM", "FP", "SP"];
+    var jiange:Float = 0;
+
+    for(buttonName in buttonNames) {
+      var button:SUSButton = new SUSButton(0, 0, Paths.image('mainmenu/${buttonName}Button'));
+      button.scrollFactor.set();
+      buttons.add(button);
+    }
   }
 }
