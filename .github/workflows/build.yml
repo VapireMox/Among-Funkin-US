@@ -39,12 +39,19 @@ jobs:
         with:
           haxe-version: ${{ env.HAXE_VERSION }}
 
+      - name: set library
+        run: |
+          mkdir .haxelib
+          haxelib setup .haxelib
+
+
       - name: Restore existing build cache for faster compilation
         uses: actions/cache@v3
         with:
           # not caching the bin folder to prevent asset duplication and stuff like that
           key: "cache-build-${{inputs.cacheName}}"
           path: |
+             .haxelib/
              export/release/${{inputs.cacheName}}/haxe/
              export/release/${{inputs.cacheName}}/obj/
           restore-keys: |
