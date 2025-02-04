@@ -25,7 +25,7 @@ class MainMenuState extends MusicBeatState {
   override function create() {
     super.create();
 
-    debugJson = cast(haxe.Json.parse(Assets.getText(Paths.json("mainmenu"))), DebugJSON);
+    debugJson = haxe.Json.parse(Assets.getText(Paths.json("mainmenu")));
 
     starrySky = new FlxBackdrop(Paths.image("mainmenu/StarrySky"));
     starrySky.setGraphicSize(FlxG.width, FlxG.height);
