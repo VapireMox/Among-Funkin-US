@@ -1,7 +1,7 @@
 package;
 
 import extra.SUSButton;
-import flixel.group.FlxSpriteGroup;
+import flixel.group.FlxGroup;
 import flixel.FlxG;
 import flixel.FlxSprite;
 import flixel.addons.display.FlxBackdrop;
@@ -17,7 +17,7 @@ class MainMenuState extends MusicBeatState {
   var charTopState:FlxSprite;
   var logo:FlxSprite;
 
-  var buttons:FlxTypedSpriteGroup<SUSButton>;
+  var buttons:FlxTypedGroup<SUSButton>;
   var asChars:Array<FlxSprite>;
   
   override function create() {
@@ -39,18 +39,18 @@ class MainMenuState extends MusicBeatState {
 
     blank = new FlxSprite(-75, 50).loadGraphic(Paths.image("mainmenu/blank"));
     blank.scrollFactor.set();
-    blank.scale.set(0.35, 0.35);
+    blank.scale.set(0.25, 0.25);
     blank.updateHitbox();
     add(blank);
 
-    buttons = new FlxTypedSpriteGroup<SUSButton>(blank.x + 50, blank.y + 20);
-    blank.scrollFactor.set();
+    buttons = new FlxTypedGroup<SUSButton>();
+    buttons.scrollFactor.set();
     createButtons();
     add(buttons);
 
-    charTopState = new FlxSprite(-7, -115).loadGraphic(Paths.image("mainmenu/CharTopState"));
+    charTopState = new FlxSprite(-1, -90).loadGraphic(Paths.image("mainmenu/CharTopState"));
     charTopState.scrollFactor.set();
-    charTopState.scale.set(0.25, 0.3);
+    charTopState.scale.set(0.2, 0.4);
     charTopState.updateHitbox();
     add(charTopState);
 
@@ -71,11 +71,10 @@ class MainMenuState extends MusicBeatState {
     var jiange:Float = 0;
 
     for(num=>buttonName in buttonNames) {
-      var button:SUSButton = new SUSButton(0, 0, 0.32, 0.32, Paths.image('mainmenu/${buttonName}Button'));
+      var button:SUSButton = new SUSButton(25, (50 + num * button.height + (num != 0 ? 1 : 0)), 0.32, 0.32, Paths.image('mainmenu/${buttonName}Button'));
       //button.scale.set(0.3, 0.3);
       //button.defaultScale.set(button.scale.x, button.scale.y);
       //button.updateHitbox();
-      button.y += num * button.height + (num != 0 ? 1 : 0);
       button.scrollFactor.set();
       buttons.add(button);
     }
