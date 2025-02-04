@@ -6,7 +6,8 @@ import flixel.input.mouse.FlxMouseEventManager;
 import flixel.FlxG;
 import flixel.FlxSprite;
 import flixel.addons.display.FlxBackdrop;
-import openfl.Assets;
+import openfl.util.Assets;
+import openfl.util.AssetType;
 
 import hscript.Interp;
 import hscript.Parser;
@@ -69,7 +70,7 @@ class MainMenuState extends MusicBeatState {
     interp.variables.set("buttons", buttons);
     interp.variables.set("charTopState", charTopState);
     var parser:Parser = new Parser();
-    interp.execute(parser.parseString(Assets.getText(Paths.getPath("data/mainmenu.hx"))));
+    interp.execute(parser.parseString(Assets.getText(Paths.getPath("data/mainmenu.hx", TEXT, null))));
   }
 
   override function update(elapsed:Float) {
