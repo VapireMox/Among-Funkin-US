@@ -8,6 +8,9 @@ import flixel.FlxSprite;
 import flixel.addons.display.FlxBackdrop;
 import openfl.Assets;
 
+import hscript.Interp;
+import hscript.Parser;
+
 class MainMenuState extends MusicBeatState {
   public static var psychEngineVersion:String = "0.6.3-special";
   
@@ -60,6 +63,13 @@ class MainMenuState extends MusicBeatState {
     logo.updateHitbox();
     logo.x = FlxG.width - logo.width;
     add(logo);
+
+    var interp:Interp = new Interp();
+    interp.variables.set("blank", blank);
+    interp.variables.set("buttons", buttons);
+    interp.variables.set("charTopState", charTopState);
+    var parser:Parser = new Parser();
+    interp.execute(parser.parseString(Assets.getText(Paths.getPath("data/mainmenu.hx"))));
   }
 
   override function update(elapsed:Float) {
@@ -76,7 +86,6 @@ class MainMenuState extends MusicBeatState {
       susButton.updateHitbox();
 
       susButton.y += num * susButton.height + jiange;
-      FlxMouseEventManager.reorder();
       add(susButton);
     }
   }
