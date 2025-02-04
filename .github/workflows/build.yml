@@ -9,6 +9,9 @@ on:
       os:
         required: true
         type: string
+      cacheName:
+        required: true
+        type: string
       buildArgs:
         required: true
         type: string
@@ -35,6 +38,17 @@ jobs:
         uses: krdlab/setup-haxe@v1
         with:
           haxe-version: ${{ env.HAXE_VERSION }}
+
+      - name: Restore existing build cache for faster compilation
+        uses: actions/cache@v3
+        with:
+          # not caching the bin folder to prevent asset duplication and stuff like that
+          key: "cache-build-${{inputs.cacheName}}"
+          path: |
+             export/release/${{inputs.cacheName}}/haxe/
+             export/release/${{inputs.cacheName}}/obj/
+          restore-keys: |
+            cache-build-${{inputs.cacheName}}
 
       - name: Install libVLC
         if: inputs.name == 'Linux'
