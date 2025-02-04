@@ -70,7 +70,7 @@ class MainMenuState extends MusicBeatState {
     interp.variables.set("buttons", buttons);
     interp.variables.set("charTopState", charTopState);
     var parser:Parser = new Parser();
-    interp.execute(parser.parseString(Assets.getText(Paths.getPath("mainmenu.hx", TEXT, null))));
+    interp.execute(parser.parseString(Paths.getTextFromFile("mainmenu.hx")));
   }
 
   override function update(elapsed:Float) {
