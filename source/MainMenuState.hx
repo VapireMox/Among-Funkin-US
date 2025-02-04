@@ -6,8 +6,8 @@ import flixel.input.mouse.FlxMouseEventManager;
 import flixel.FlxG;
 import flixel.FlxSprite;
 import flixel.addons.display.FlxBackdrop;
-import openfl.util.Assets;
-import openfl.util.AssetType;
+import openfl.utils.Assets;
+import openfl.utils.AssetType;
 
 import hscript.Interp;
 import hscript.Parser;
