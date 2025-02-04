@@ -37,7 +37,7 @@ class MainMenuState extends MusicBeatState {
 
     blank = new FlxSprite(50, 100).loadGraphic(Paths.image("mainmenu/blank"));
     blank.scrollFactor.set();
-    blank.scale.set(0.4, 0.4);
+    blank.scale.set(0.3, 0.3);
     blank.updateHitbox();
     add(blank);
 
@@ -48,13 +48,13 @@ class MainMenuState extends MusicBeatState {
 
     charTopState = new FlxSprite().loadGraphic(Paths.image("mainmenu/CharTopState"));
     charTopState.scrollFactor.set();
-    charTopState.scale.set(0.4, 0.4);
+    charTopState.scale.set(0.25, 0.25);
     charTopState.updateHitbox();
     add(charTopState);
 
     logo = new FlxSprite().loadGraphic(Paths.image("mainmenu/MainLOGO"));
     logo.scrollFactor.set();
-    logo.scale.set(0.4, 0.4);
+    logo.scale.set(0.2, 0.2);
     logo.updateHitbox();
     logo.x = FlxG.width - logo.width;
     add(logo);
