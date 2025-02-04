@@ -1,7 +1,7 @@
 package extra;
 
 import flixel.FlxSprite;
-import flixel.input.mouse.FlxMouseEvent;
+import flixel.input.mouse.FlxMouseEventManager;
 import flixel.system.FlxAssets;
 import flixel.tweens.FlxTween;
 import flixel.tweens.FlxEase;
@@ -20,7 +20,7 @@ class SUSButton extends FlxSprite {
 
     loadGraphic(graphic);
     this.callEffect = callEffect;
-    FlxMouseEvent.add(this, onMouseDown, null, onMouseOver, onMouseOut);
+    FlxMouseEventManager.add(this, onMouseDown, null, onMouseOver, onMouseOut);
   }
 
   private function onMouseDown(obj:FlxSprite) {
