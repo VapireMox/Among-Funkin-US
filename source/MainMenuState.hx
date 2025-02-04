@@ -2,6 +2,7 @@ package;
 
 import extra.SUSButton;
 import flixel.group.FlxGroup;
+import flixel.input.mouse.FlxMouseEventManager;
 import flixel.FlxG;
 import flixel.FlxSprite;
 import flixel.addons.display.FlxBackdrop;
@@ -37,9 +38,9 @@ class MainMenuState extends MusicBeatState {
     panelBG.scrollFactor.set();
     add(panelBG);
 
-    blank = new FlxSprite(-75, 50).loadGraphic(Paths.image("mainmenu/blank"));
+    blank = new FlxSprite(-20, 50).loadGraphic(Paths.image("mainmenu/blank"));
     blank.scrollFactor.set();
-    blank.scale.set(0.3, 0.3);
+    blank.scale.set(0.4, 0.4);
     blank.updateHitbox();
     add(blank);
 
@@ -47,9 +48,9 @@ class MainMenuState extends MusicBeatState {
     createButtons();
     add(buttons);
 
-    charTopState = new FlxSprite(-1, -70).loadGraphic(Paths.image("mainmenu/CharTopState"));
+    charTopState = new FlxSprite(-1, -45).loadGraphic(Paths.image("mainmenu/CharTopState"));
     charTopState.scrollFactor.set();
-    charTopState.scale.set(0.25, 0.2);
+    charTopState.scale.set(0.3, 0.2);
     charTopState.updateHitbox();
     add(charTopState);
 
@@ -75,6 +76,7 @@ class MainMenuState extends MusicBeatState {
       susButton.updateHitbox();
 
       susButton.y += num * susButton.height + jiange;
+      FlxMouseEventManager.reorder();
       add(susButton);
     }
   }
