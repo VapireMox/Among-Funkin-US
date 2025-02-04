@@ -16,7 +16,7 @@ class MainMenuState extends MusicBeatState {
   var charTopState:FlxSprite;
   var logo:FlxSprite;
 
-  var buttons:SUSButtonGroup;
+  var buttons:FlxTypedSpriteGroup<SUSButton>;
   var asChars:Array<FlxSprite>;
   
   override function create() {
@@ -38,7 +38,7 @@ class MainMenuState extends MusicBeatState {
     blank.scrollFactor.set();
     add(blank);
 
-    buttons = new FlxTypedSpriteGroup(blank.x, blank.y);
+    buttons = new FlxTypedSpriteGroup<SUSButton>(blank.x, blank.y);
     blank.scrollFactor.set();
     createButtons();
     add(buttons);
