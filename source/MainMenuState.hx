@@ -21,7 +21,7 @@ class MainMenuState extends MusicBeatState {
   var buttons:FlxTypedSpriteGroup<SUSButton>;
   var asChars:Array<FlxSprite>;
 
-  var debugJson:DebugJson;
+  var debugJson:DebugJSON;
   
   override function create() {
     super.create();
