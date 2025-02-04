@@ -16,12 +16,14 @@ class SUSButton extends FlxSprite {
 
   private var callEffect:CallEffect;
 
-  private var scaleNB:Float = 0.05;
+  private var scaleNB:Float = 0.04;
   
-  public function new(?x:Float = 0, ?y:Float = 0, graphic:FlxGraphicAsset, ?callEffect:CallEffect = NORMAL) {
+  public function new(?x:Float = 0, ?y:Float = 0, ?scaleX:Float = 1, ?scaleY:Float = 1, graphic:FlxGraphicAsset, ?callEffect:CallEffect = NORMAL) {
     super(x, y);
 
     loadGraphic(graphic);
+    scale.set(scaleX, scaleY);
+    updateHitbox();
     this.callEffect = callEffect;
     FlxMouseEventManager.add(this, onMouseDown, null, onMouseOver, onMouseOut);
   }
@@ -34,7 +36,7 @@ class SUSButton extends FlxSprite {
   private function onMouseDown(obj:FlxSprite) {
     switch(this.callEffect) {
         case NORMAL:
-          FlxTween.tween(scale, {x: defaultScale.x - scaleNB, y: defaultScale.y - scaleNB}, 0.15, {ease: FlxEase.quadIn, onComplete: huiTang});
+          FlxTween.tween(scale, {x: defaultScale.x - scaleNB, y: defaultScale.y - scaleNB}, 0.08, {ease: FlxEase.quadIn, onComplete: huiTang});
     }
   }
 
