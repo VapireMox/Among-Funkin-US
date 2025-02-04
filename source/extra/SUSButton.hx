@@ -18,12 +18,10 @@ class SUSButton extends FlxSprite {
 
   private var scaleNB:Float = 0.04;
   
-  public function new(?x:Float = 0, ?y:Float = 0, ?scaleX:Float = 1, ?scaleY:Float = 1, graphic:FlxGraphicAsset, ?callEffect:CallEffect = NORMAL) {
+  public function new(?x:Float = 0, ?y:Float = 0, graphic:FlxGraphicAsset, ?callEffect:CallEffect = NORMAL) {
     super(x, y);
 
     loadGraphic(graphic);
-    scale.set(scaleX, scaleY);
-    updateHitbox();
     this.callEffect = callEffect;
     FlxMouseEventManager.add(this, onMouseDown, null, onMouseOver, onMouseOut);
   }
