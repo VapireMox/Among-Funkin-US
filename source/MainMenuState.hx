@@ -37,6 +37,8 @@ class MainMenuState extends MusicBeatState {
 
     blank = new FlxSprite(50, 100).loadGraphic(Paths.image("mainmenu/blank"));
     blank.scrollFactor.set();
+    blank.scale.set(0.4, 0.4);
+    blank.updateHitbox();
     add(blank);
 
     buttons = new FlxTypedSpriteGroup<SUSButton>(blank.x, blank.y);
@@ -46,11 +48,14 @@ class MainMenuState extends MusicBeatState {
 
     charTopState = new FlxSprite().loadGraphic(Paths.image("mainmenu/CharTopState"));
     charTopState.scrollFactor.set();
+    charTopState.scale.set(0.4, 0.4);
+    charTopState.updateHitbox();
     add(charTopState);
 
     logo = new FlxSprite().loadGraphic(Paths.image("mainmenu/MainLOGO"));
     logo.scrollFactor.set();
-
+    logo.scale.set(0.4, 0.4);
+    logo.updateHitbox();
     logo.x = FlxG.width - logo.width;
     add(logo);
   }
@@ -66,7 +71,7 @@ class MainMenuState extends MusicBeatState {
     for(num=>buttonName in buttonNames) {
       var button:SUSButton = new SUSButton(0, 0, Paths.image('mainmenu/${buttonName}Button'));
       button.scale.set(0.4, 0.4);
-      button.defaultScale.set(button.scale.x, button.scale.y);
+      //button.defaultScale.set(button.scale.x, button.scale.y);
       button.updateHitbox();
       button.y += num * button.height;
       button.scrollFactor.set();
