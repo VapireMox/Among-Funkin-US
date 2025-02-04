@@ -9,5 +9,6 @@ jobs:
         name: Android
         os: ubuntu-22.04
         buildArgs: "android"
+        cacheName: android
         artifactName: android-AFUS
         artifactPath: "export/release/android/bin/app/build/outputs/apk/release/*.apk"
