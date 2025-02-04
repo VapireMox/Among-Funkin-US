@@ -7,6 +7,11 @@ class SUSButtonGroup extends FlxTypedSpriteGroup<SUSButton> {
 
   public override function add(basic:SUSButton, name:String):SUSButton {
     lezi.set(name, basic);
-    super.add(basic);
+    return super.add(basic);
+  }
+
+  public override function remove(basic:SUSButton, name:String, ?splice:Bool = false) {
+    lezi.remove(name);
+    return super.remove(basic, splice);
   }
 }
