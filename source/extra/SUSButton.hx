@@ -16,7 +16,7 @@ class SUSButton extends FlxSprite {
 
   private var callEffect:CallEffect;
 
-  private var scaleNB:Float = 0.5;
+  private var scaleNB:Float = 0.1;
   
   public function new(?x:Float = 0, ?y:Float = 0, graphic:FlxGraphicAsset, ?callEffect:CallEffect = NORMAL) {
     super(x, y);
