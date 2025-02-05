@@ -4,7 +4,7 @@ import extra.SUSButton;
 import flixel.group.FlxGroup;
 import flixel.input.mouse.FlxMouseEventManager;
 import flixel.FlxG;
-import flixel.maths.FlxPoint;
+import flixel.math.FlxPoint;
 import flixel.FlxSprite;
 import flixel.addons.display.FlxBackdrop;
 import openfl.utils.Assets;
