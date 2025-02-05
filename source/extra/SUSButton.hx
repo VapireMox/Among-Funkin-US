@@ -6,6 +6,7 @@ import flixel.system.FlxAssets;
 import flixel.tweens.FlxTween;
 import flixel.tweens.FlxEase;
 import flixel.math.FlxPoint;
+import flixel.FlxG;
 
 class SUSButton extends FlxSprite {
   public static var groupName:Array<String> = [""];
@@ -31,7 +32,7 @@ class SUSButton extends FlxSprite {
   }
 
   override function update(elapsed:Float) {
-    super.elapsed(elapsed);
+    super.update(elapsed);
 
     if(overlapFromMouse()) {
       onMouseOver(this);
