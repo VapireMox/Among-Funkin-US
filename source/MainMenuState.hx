@@ -84,7 +84,7 @@ class MainMenuState extends MusicBeatState {
       var susButton:SUSButton = new SUSButton(25, 150, Paths.image('mainmenu/${buttonName}Button'));
       susButton.scale.set(0.35, 0.35);
       susButton.updateHitbox();
-      Reflect.callMethod(null, interp.variables.get("onCreateButtons"), []);
+      Reflect.callMethod(null, interp.variables.get("onCreateButtons"), [susButton]);
 
       susButton.y += num * susButton.height + jiange;
       add(susButton);
