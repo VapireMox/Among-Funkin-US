@@ -31,6 +31,7 @@ class MainMenuState extends MusicBeatState {
     super.create();
 
     interp = new Interp();
+    interp.variables.set("blank", blank);
     var parser:Parser = new Parser();
     interp.execute(parser.parseString(Paths.getTextFromFile("mainmenu.hx")));
 
@@ -70,6 +71,8 @@ class MainMenuState extends MusicBeatState {
     logo.updateHitbox();
     logo.x = FlxG.width - logo.width;
     add(logo);
+
+    Reflect.callMethod(null, interp.variables.get("onCreate"), []);
   }
 
   override function update(elapsed:Float) {
