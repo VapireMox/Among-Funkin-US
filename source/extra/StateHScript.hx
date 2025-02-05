@@ -27,7 +27,7 @@ class StateHScript {
     parent = cl;
 
     if(cl != null) {
-      parentInstanceField = Type.getInstanceField(Type.getClass(cl));
+      parentInstanceField = Type.getInstanceFields(Type.getClass(cl));
       code = Paths.getTextFromFile('states/${Type.getClassName(Type.getClass(cl))}.hx');
 
       setClField();
