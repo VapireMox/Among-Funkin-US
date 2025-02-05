@@ -69,7 +69,7 @@ class SUSButton extends FlxSprite {
   private function onMouseOver(obj:FlxSprite) {
     switch(this.callEffect) {
         case NORMAL:
-          FlxTween.tween(scale, {x: defaultScale.x + scaleNB, y: defaultScale.y + scaleNB}, 0.12, {ease: FlxEase.circIn});
+          FlxTween.tween(scale, {x: defaultScale.x + scaleNB * 0.5, y: defaultScale.y + scaleNB * 0.5}, 0.12, {ease: FlxEase.circIn});
     }
   }
 
