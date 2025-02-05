@@ -24,9 +24,15 @@ class MainMenuState extends MusicBeatState {
 
   var buttons:FlxTypedGroup<SUSButton>;
   var asChars:Array<FlxSprite>;
+
+  var interp:Interp;
   
   override function create() {
     super.create();
+
+    interp = new Interp();
+    var parser:Parser = new Parser();
+    interp.execute(parser.parseString(Paths.getTextFromFile("mainmenu.hx")));
 
     if(!FlxG.mouse.visible) FlxG.mouse.visible = true;
 
@@ -42,9 +48,9 @@ class MainMenuState extends MusicBeatState {
     panelBG.scrollFactor.set();
     add(panelBG);
 
-    blank = new FlxSprite(-20, 50).loadGraphic(Paths.image("mainmenu/blank"));
+    blank = new FlxSprite(-117, 12).loadGraphic(Paths.image("mainmenu/blank"));
     blank.scrollFactor.set();
-    blank.scale.set(0.4, 0.4);
+    blank.scale.set(0.34, 0.34);
     blank.updateHitbox();
     add(blank);
 
@@ -52,9 +58,9 @@ class MainMenuState extends MusicBeatState {
     createButtons();
     add(buttons);
 
-    charTopState = new FlxSprite(-1, -45).loadGraphic(Paths.image("mainmenu/CharTopState"));
+    charTopState = new FlxSprite(-4, -51).loadGraphic(Paths.image("mainmenu/CharTopState"));
     charTopState.scrollFactor.set();
-    charTopState.scale.set(0.3, 0.2);
+    charTopState.scale.set(0.262, 0.2);
     charTopState.updateHitbox();
     add(charTopState);
 
@@ -64,13 +70,6 @@ class MainMenuState extends MusicBeatState {
     logo.updateHitbox();
     logo.x = FlxG.width - logo.width;
     add(logo);
-
-    var interp:Interp = new Interp();
-    interp.variables.set("blank", blank);
-    interp.variables.set("buttons", buttons);
-    interp.variables.set("charTopState", charTopState);
-    var parser:Parser = new Parser();
-    interp.execute(parser.parseString(Paths.getTextFromFile("mainmenu.hx")));
   }
 
   override function update(elapsed:Float) {
@@ -85,6 +84,7 @@ class MainMenuState extends MusicBeatState {
       var susButton:SUSButton = new SUSButton(25, 150, Paths.image('mainmenu/${buttonName}Button'));
       susButton.scale.set(0.35, 0.35);
       susButton.updateHitbox();
+      Reflect.callMethod(null, interp.variables.get("onCreateButtons"), []);
 
       susButton.y += num * susButton.height + jiange;
       add(susButton);
