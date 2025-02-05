@@ -85,7 +85,7 @@ class MainMenuState extends MusicBeatState {
         else susButton.y -= 10;
 
         if(num >= buttonNames.indexOf("CS")) {
-          switch(buttonName[num]) {
+          switch(buttonName) {
               case "CS": susButton.x -= susButton.width / 2;
               case "LE":
                 susButton.x += susButton.width / 2;
