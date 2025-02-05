@@ -76,10 +76,10 @@ class MainMenuState extends MusicBeatState {
 
     for(num=>buttonName in buttonNames) {
       var susButton:SUSButton = new SUSButton(25, 150, Paths.image('mainmenu/${buttonName}Button'));
-      susButton.scale.set(0.35, 0.35);
+      susButton.scale.set(0.32, 0.32);
       susButton.updateHitbox();
 
-      susButton.y += num * susButton.height + (num > 0 ? jiange : 0);
+      susButton.y += num * susButton.height + (num != 0 ? jiange : 0);
       if(num >= buttonName.indexOf("PE")) susButton.y += 20;
       add(susButton);
 
@@ -89,6 +89,8 @@ class MainMenuState extends MusicBeatState {
             MusicBeatState.switchState(new StoryMenuState());
           case "FP":
             MusicBeatState.switchState(new FreeplayState());
+          case "OS":
+            MusicBeatState.switchState(new options.OptionsState);
           case "LE":
             MusicBeatState.switchState(new TitleState());
           case "CS":
