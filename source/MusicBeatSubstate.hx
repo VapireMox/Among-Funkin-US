@@ -11,14 +11,20 @@ import mobile.Hitbox;
 import mobile.TouchPad;
 import flixel.FlxCamera;
 import flixel.util.FlxDestroyUtil;
+import extra.StateHSctipt;
 
 class MusicBeatSubstate extends FlxSubState
 {
 	public static var instance:MusicBeatSubstate;
+
+	public var script:StateHScript;
 	public function new()
 	{
 		instance = this;
 		super();
+
+		script = new StateHScript(this);
+		script.execute();
 	}
 
 	private var lastBeat:Float = 0;
@@ -116,8 +122,20 @@ class MusicBeatSubstate extends FlxSubState
 	{
 		removeTouchPad();
 		removeMobileControls();
+		script.call("onDestroy");
 		
 		super.destroy();
+	}
+
+	override function create() {
+		super.create();
+		script.call();
+	}
+
+	override function tryUpdate(elapsed:Float) {
+		script.call("onUpdate", [elapsed]);
+		super.tryUpdate(elapsed);
+		script.call("onUpdatePost", [elapsed])
 	}
 
 	override function update(elapsed:Float)
@@ -154,10 +172,12 @@ class MusicBeatSubstate extends FlxSubState
 	{
 		if (curStep % 4 == 0)
 			beatHit();
+		script.call("onStepHit");
 	}
 
 	public function beatHit():Void
 	{
 		//do literally nothing dumbass
+		script.call("onBeatHit");
 	}
 }
