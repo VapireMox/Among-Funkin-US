@@ -23,12 +23,28 @@ class SUSButton extends FlxSprite {
 
     loadGraphic(graphic);
     this.callEffect = callEffect;
-    FlxMouseEventManager.add(this, onMouseDown, null, onMouseOver, onMouseOut);
   }
 
   public override function updateHitbox() {
     defaultScale.set(this.scale.x, this.scale.y);
     super.updateHitbox();
+  }
+
+  override function update(elapsed:Float) {
+    super.elapsed(elapsed);
+
+    if(overlapFromMouse()) {
+      onMouseOver(this);
+      if(FlxG.mouse.justPressed)
+        onMouseDown(this);
+    }else {
+      onMouseOut(this);
+    }
+  }
+
+  private function overlapFromMouse():Bool {
+    return (this.x < FlxG.mouse.screenX && this.x + this.width > FlxG.mouse.screenX &&
+    this.y < FlxG.mouse.screenY && this.y + this.height > FlxG.mouse.screenY);
   }
 
   private function onMouseDown(obj:FlxSprite) {
