@@ -90,6 +90,7 @@ class MainMenuState extends MusicBeatState {
               case "LE":
                 susButton.x += susButton.width / 2;
                 susButton.y = buttons.members[num - 1].y;
+              default: {}
           }
         }
       }
