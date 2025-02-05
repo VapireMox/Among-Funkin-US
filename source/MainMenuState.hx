@@ -30,11 +30,6 @@ class MainMenuState extends MusicBeatState {
   override function create() {
     super.create();
 
-    interp = new Interp();
-    interp.variables.set("blank", blank);
-    var parser:Parser = new Parser();
-    interp.execute(parser.parseString(Paths.getTextFromFile("mainmenu.hx")));
-
     if(!FlxG.mouse.visible) FlxG.mouse.visible = true;
 
     starrySky = new FlxBackdrop(Paths.image("mainmenu/StarrySky"));
@@ -54,6 +49,11 @@ class MainMenuState extends MusicBeatState {
     blank.scale.set(0.34, 0.34);
     blank.updateHitbox();
     add(blank);
+
+    interp = new Interp();
+    interp.variables.set("blank", blank);
+    var parser:Parser = new Parser();
+    interp.execute(parser.parseString(Paths.getTextFromFile("mainmenu.hx")));
 
     buttons = new FlxTypedGroup<SUSButton>();
     createButtons();
