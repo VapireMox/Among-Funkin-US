@@ -19,6 +19,7 @@ import mobile.IMobileControls;
 import mobile.Hitbox;
 import mobile.TouchPad;
 import flixel.util.FlxDestroyUtil;
+import extra.StateHScript;
 
 class MusicBeatState extends FlxUIState
 {
@@ -41,6 +42,7 @@ class MusicBeatState extends FlxUIState
 	public var touchPadCam:FlxCamera;
 	public var mobileControls:IMobileControls;
 	public var mobileControlsCam:FlxCamera;
+	public var script:StateHScript;
 
 	public function addTouchPad(DPad:String, Action:String)
 	{
@@ -121,6 +123,7 @@ class MusicBeatState extends FlxUIState
 		removeMobileControls();
 		
 		super.destroy();
+		script.call("destroy");
 	}
 
 	override function create() {
@@ -132,6 +135,17 @@ class MusicBeatState extends FlxUIState
 			openSubState(new CustomFadeTransition(0.7, true));
 		}
 		FlxTransitionableState.skipNextTransOut = false;
+
+		script = new StateHScript(this);
+		script.execute();
+
+		script.call("onCreate");
+	}
+
+	override function tryUpdate(elapsed:Float) {
+		script.call("onUpdate", elapsed);
+		super.tryUpdate(elapsed);
+		script.call("onUpdatePost", elapsed);
 	}
 
 	override function update(elapsed:Float)
@@ -246,16 +260,19 @@ class MusicBeatState extends FlxUIState
 	{
 		if (curStep % 4 == 0)
 			beatHit();
+		script.call("onStepHit");
 	}
 
 	public function beatHit():Void
 	{
 		//trace('Beat: ' + curBeat);
+		script.call("onBeatHit");
 	}
 
 	public function sectionHit():Void
 	{
 		//trace('Section: ' + curSection + ', Beat: ' + curBeat + ', Step: ' + curStep);
+		script.call("onSectionHit");
 	}
 
 	function getBeatsOnSection()
