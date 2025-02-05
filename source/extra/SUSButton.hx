@@ -35,9 +35,11 @@ class SUSButton extends FlxSprite {
     super.update(elapsed);
 
     if(overlapFromMouse()) {
-      onMouseOver(this);
-      if(FlxG.mouse.justPressed)
+      if(FlxG.mouse.justPressed) {
         onMouseDown(this);
+        return;
+      }
+      onMouseOver(this);
     }else {
       onMouseOut(this);
     }
