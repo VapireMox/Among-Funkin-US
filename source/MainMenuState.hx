@@ -79,21 +79,12 @@ class MainMenuState extends MusicBeatState {
       susButton.scale.set(0.33, 0.33);
       susButton.updateHitbox();
 
-      susButton.y += num * (num > 0 ? buttons.members[num - 1].height : 0) + (num != 0 ? jiange : 0);
-      if(num >= buttonNames.indexOf("PE")) {
-        if(num == buttonNames.indexOf("PE")) susButton.y += 40;
-        else susButton.y -= 10;
-
-        if(num >= buttonNames.indexOf("CS")) {
-          switch(buttonName) {
-              case "CS": susButton.x -= susButton.width / 2;
-              case "LE":
-                susButton.x += susButton.width / 2;
-                susButton.y = buttons.members[num - 1].y;
-              default: {}
-          }
-        }
-      }
+      var pointer = FlxPoint.get((switch(buttonName) {
+        default:
+          
+      }), (switch(buttonName) {
+        default: 62.5;
+      }));
 
       buttons.add(susButton);
 
