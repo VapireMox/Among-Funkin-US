@@ -18,6 +18,8 @@ class SUSButton extends FlxSprite {
   private var callEffect:CallEffect;
 
   private var scaleNB:Float = 0.04;
+  private var overed:Bool = true;
+  private var outed:Bool = false;
   
   public function new(?x:Float = 0, ?y:Float = 0, graphic:FlxGraphicAsset, ?callEffect:CallEffect = NORMAL) {
     super(x, y);
@@ -35,13 +37,20 @@ class SUSButton extends FlxSprite {
     super.update(elapsed);
 
     if(overlapFromMouse()) {
+      outed = true;
       if(FlxG.mouse.justPressed) {
         onMouseDown(this);
-        return;
       }
-      onMouseOver(this);
+      if(overed) {
+        onMouseOver(this);
+        overed = false;
+      }
     }else {
-      onMouseOut(this);
+      overed = true;
+      if(outed) {
+        onMouseOut(this);
+        outed = false;
+      }
     }
   }
 
