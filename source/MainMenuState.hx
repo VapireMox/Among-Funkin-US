@@ -24,8 +24,6 @@ class MainMenuState extends MusicBeatState {
 
   var buttons:FlxTypedGroup<SUSButton>;
   var asChars:Array<FlxSprite>;
-
-  var interp:Interp;
   
   override function create() {
     super.create();
@@ -44,16 +42,11 @@ class MainMenuState extends MusicBeatState {
     panelBG.scrollFactor.set();
     add(panelBG);
 
-    blank = new FlxSprite(-117, 12).loadGraphic(Paths.image("mainmenu/blank"));
+    blank = new FlxSprite(-65, 75).loadGraphic(Paths.image("mainmenu/blank"));
     blank.scrollFactor.set();
     blank.scale.set(0.34, 0.34);
     blank.updateHitbox();
     add(blank);
-
-    interp = new Interp();
-    interp.variables.set("blank", blank);
-    var parser:Parser = new Parser();
-    interp.execute(parser.parseString(Paths.getTextFromFile("mainmenu.hx")));
 
     buttons = new FlxTypedGroup<SUSButton>();
     createButtons();
@@ -71,8 +64,6 @@ class MainMenuState extends MusicBeatState {
     logo.updateHitbox();
     logo.x = FlxG.width - logo.width;
     add(logo);
-
-    Reflect.callMethod(null, interp.variables.get("onCreate"), []);
   }
 
   override function update(elapsed:Float) {
@@ -80,17 +71,32 @@ class MainMenuState extends MusicBeatState {
   }
 
   private function createButtons() {
-    var buttonNames:Array<String> = ["SM", "FP", "SP"];
-    var jiange:Float = 0;
+    var buttonNames:Array<String> = ["SM", "FP", "SP", "PE", "CM", "OS", "CS", "LE"];
+    var jiange:Float = -7.5;
 
     for(num=>buttonName in buttonNames) {
       var susButton:SUSButton = new SUSButton(25, 150, Paths.image('mainmenu/${buttonName}Button'));
       susButton.scale.set(0.35, 0.35);
       susButton.updateHitbox();
-      Reflect.callMethod(null, interp.variables.get("onCreateButtons"), [susButton]);
 
-      susButton.y += num * susButton.height + jiange;
+      susButton.y += num * susButton.height + (num > 0 ? jiange : 0);
+      if(num >= buttonName.indexOf("PE")) susButton.y += 20;
       add(susButton);
+
+      susButton.clickCallback = () -> {
+        switch(buttonName) {
+          case "SM":
+            MusicBeatState.switchState(new StoryMenuState());
+          case "FP":
+            MusicBeatState.switchState(new FreeplayState());
+          case "LE":
+            MusicBeatState.switchState(new TitleState());
+          case "CS":
+            MusicBeatState.switchState(new CreditState());
+          default: 
+            lime.app.Application.current.window.alert("Feature Not Free", "error");
+        }
+      };
     }
   }
 }
