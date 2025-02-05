@@ -79,7 +79,7 @@ class MainMenuState extends MusicBeatState {
       susButton.scale.set(0.32, 0.32);
       susButton.updateHitbox();
 
-      susButton.y += num * susButton.height + (num != 0 ? jiange : 0);
+      susButton.y += num * susButton.height + (num != 0 ? jiange : 0) - 20;
       if(num >= buttonName.indexOf("PE")) susButton.y += 20;
       add(susButton);
 
@@ -90,7 +90,7 @@ class MainMenuState extends MusicBeatState {
           case "FP":
             MusicBeatState.switchState(new FreeplayState());
           case "OS":
-            MusicBeatState.switchState(new options.OptionsState);
+            MusicBeatState.switchState(new options.OptionsState());
           case "LE":
             MusicBeatState.switchState(new TitleState());
           case "CS":
