@@ -85,9 +85,9 @@ class MainMenuState extends MusicBeatState {
         case "LE": 75;
         default: 0;
       }), (switch(buttonName) {
-        case "LE": 62.5 * (num - 1) + 50;
-        case "PE" | "CM" | "OS" | "CS": 62.5 * num + 40 + 7.5;
-        default: 62.5 * num + 7.5;
+        case "LE": 63.5 * (num - 1) + 50;
+        case "PE" | "CM" | "OS" | "CS": 63.5 * num + 65;
+        default: 63.5 * num;
       }));
       susButton.x += pointer.x;
       susButton.y += pointer.y;
