@@ -92,7 +92,7 @@ class MainMenuState extends MusicBeatState {
           case "LE":
             MusicBeatState.switchState(new TitleState());
           case "CS":
-            MusicBeatState.switchState(new CreditState());
+            MusicBeatState.switchState(new CreditsState());
           default: 
             lime.app.Application.current.window.alert("Feature Not Free", "error");
         }
