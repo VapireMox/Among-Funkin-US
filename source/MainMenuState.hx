@@ -75,12 +75,12 @@ class MainMenuState extends MusicBeatState {
     var jiange:Float = -7.5;
 
     for(num=>buttonName in buttonNames) {
-      var susButton:SUSButton = new SUSButton(25, 150, Paths.image('mainmenu/${buttonName}Button'));
-      susButton.scale.set(0.32, 0.32);
+      var susButton:SUSButton = new SUSButton(35, 135, Paths.image('mainmenu/${buttonName}Button'));
+      susButton.scale.set(0.33, 0.33);
       susButton.updateHitbox();
 
-      susButton.y += num * susButton.height + (num != 0 ? jiange : 0) - 20;
-      if(num >= buttonName.indexOf("PE")) susButton.y += 20;
+      susButton.y += num * susButton.height + (num != 0 ? jiange : 0);
+      if(num == buttonName.indexOf("PE")) susButton.y += 40;
       add(susButton);
 
       susButton.clickCallback = () -> {
