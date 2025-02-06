@@ -6,6 +6,7 @@ import flixel.FlxG;
 import flixel.FlxSprite;
 import flixel.group.FlxGroup;
 import flixel.group.FlxSpriteGroup;
+import flixel.tweens.FlxTween;
 
 class MainMenuState extends MusicBeatState {
   public static var psychEngineVersion:String = "0.6.3(AFUS)";
