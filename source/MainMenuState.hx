@@ -8,8 +8,20 @@ import flixel.group.FlxGroup;
 import flixel.group.FlxSpriteGroup;
 import flixel.tweens.FlxTween;
 
+@:access(extra.SUSButton)
 class MainMenuState extends MusicBeatState {
   public static var psychEngineVersion:String = "0.6.3(AFUS)";
+  public var canSelected(default, set):Bool = false;
+  @:noCompletion private function set_canSelected(val:Bool):Bool {
+    if(buttons != null && buttons.length > 0) {
+      buttons.forEachAlive(function(obj:SUSButton) {
+        if(val)
+          obj.clickEffect = NORMAL(0.5);
+        else obj.clickEffect = NONE;
+      });
+    }
+    return val;
+  }
   
   var bg:FlxSprite;
   var blank:FlxSprite;
