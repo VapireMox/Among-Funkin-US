@@ -60,6 +60,8 @@ class MainMenuState extends MusicBeatState {
   }
 
   public override function update(elapsed:Float) {
+	  super.update(elapsed);
+	  
 	  starrySky.x += elapsed * 2;
   }
 
