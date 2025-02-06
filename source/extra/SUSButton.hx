@@ -21,7 +21,7 @@ class SUSButton extends FlxSprite {
   private var overed:Bool = true;
   private var outed:Bool = false;
   
-  public function new(?x:Float = 0, ?y:Float = 0, graphic:FlxGraphicAsset, ?callEffect:CallEffect = NORMAL) {
+  public function new(?x:Float = 0, ?y:Float = 0, graphic:FlxGraphicAsset, ?callEffect:CallEffect = NORMAL(0.5)) {
     super(x, y);
 
     loadGraphic(graphic);
@@ -61,21 +61,21 @@ class SUSButton extends FlxSprite {
 
   private function onMouseDown(obj:FlxSprite) {
     switch(this.callEffect) {
-        case NORMAL:
+        case NORMAL(fudu):
           FlxTween.tween(scale, {x: defaultScale.x - scaleNB, y: defaultScale.y - scaleNB}, 0.08, {ease: FlxEase.quadIn, onComplete: huiTang});
     }
   }
 
   private function onMouseOver(obj:FlxSprite) {
     switch(this.callEffect) {
-        case NORMAL:
-          FlxTween.tween(scale, {x: defaultScale.x + scaleNB * 0.5, y: defaultScale.y + scaleNB * 0.5}, 0.12, {ease: FlxEase.circIn});
+        case NORMAL(fudu):
+          FlxTween.tween(scale, {x: defaultScale.x + scaleNB * fudu, y: defaultScale.y + scaleNB * 0.5}, 0.12, {ease: FlxEase.circIn});
     }
   }
 
   private function onMouseOut(obj:FlxSprite) {
     switch(this.callEffect) {
-        case NORMAL:
+        case NORMAL(fudu):
           FlxTween.tween(scale, {x: defaultScale.x, y: defaultScale.y}, 0.12, {ease: FlxEase.circOut});
     }
   }
@@ -86,5 +86,5 @@ class SUSButton extends FlxSprite {
 }
 
 enum CallEffect {
-  NORMAL;
+  NORMAL(fudu:Float);
 }
