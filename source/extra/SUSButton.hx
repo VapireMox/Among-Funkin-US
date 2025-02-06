@@ -21,10 +21,11 @@ class SUSButton extends FlxSprite {
   private var overed:Bool = true;
   private var outed:Bool = false;
   
-  public function new(?x:Float = 0, ?y:Float = 0, graphic:FlxGraphicAsset, ?callEffect:CallEffect = NORMAL(0.5)) {
+  public function new(?x:Float = 0, ?y:Float = 0, graphic:FlxGraphicAsset, ?callEffect:CallEffect = NORMAL) {
     super(x, y);
 
     loadGraphic(graphic);
+    if(callEffect == null) callEffect = NORMAL(0.5);
     this.callEffect = callEffect;
   }
 
