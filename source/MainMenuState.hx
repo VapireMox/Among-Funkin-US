@@ -110,7 +110,7 @@ class MainMenuState extends MusicBeatState {
 	  var list = FlxG.random.int(1, 2);
 	  if(list > 0)
 		  for(i in 0...list) {
-			  var dataS:Int = FlxG.random.int(0, susMans.length - 1)
+			  var dataS:Int = FlxG.random.int(0, susMans.length - 1);
 			  var susMan:String = susMans[dataS];
 			  var sb = new FlxSprite().loadGraphic(Paths.image('mainmenu/characters/${susMan}'));
 			  sb.scale.set(0.2, 0.2);
