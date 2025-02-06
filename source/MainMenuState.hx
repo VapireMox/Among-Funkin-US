@@ -16,8 +16,8 @@ class MainMenuState extends MusicBeatState {
     if(buttons != null && buttons.length > 0) {
       buttons.forEachAlive(function(obj:SUSButton) {
         if(val)
-          obj.clickEffect = NORMAL(0.5);
-        else obj.clickEffect = NONE;
+          obj.callEffect = NORMAL(0.5);
+        else obj.callEffect = NONE;
       });
     }
     return val;
@@ -36,6 +36,8 @@ class MainMenuState extends MusicBeatState {
     if(!FlxG.mouse.visible) FlxG.mouse.visible = true;
     
     super.create();
+
+		canSelected = true;
     
 	  starrySky = new FlxBackdrop(Paths.image("mainmenu/StarrySky"));
 	  starrySky.setGraphicSize(FlxG.width, FlxG.height);
@@ -101,6 +103,7 @@ class MainMenuState extends MusicBeatState {
 		  buttons.add(button);
 
       button.clickCallback = () -> {
+				canSelected = false;
         switch(buttonName) {
           case "SM":
             MusicBeatState.switchState(new StoryMenuState());
