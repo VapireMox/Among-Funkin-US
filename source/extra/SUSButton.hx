@@ -64,6 +64,7 @@ class SUSButton extends FlxSprite {
     switch(this.callEffect) {
         case NORMAL(fudu):
           FlxTween.tween(scale, {x: defaultScale.x - scaleNB, y: defaultScale.y - scaleNB}, 0.08, {ease: FlxEase.quadIn, onComplete: huiTang});
+        case NONE: {}
     }
   }
 
@@ -71,6 +72,7 @@ class SUSButton extends FlxSprite {
     switch(this.callEffect) {
         case NORMAL(fudu):
           FlxTween.tween(scale, {x: defaultScale.x + scaleNB * fudu, y: defaultScale.y + scaleNB * 0.5}, 0.12, {ease: FlxEase.circIn});
+        case NONE: {}
     }
   }
 
@@ -78,6 +80,7 @@ class SUSButton extends FlxSprite {
     switch(this.callEffect) {
         case NORMAL(fudu):
           FlxTween.tween(scale, {x: defaultScale.x, y: defaultScale.y}, 0.12, {ease: FlxEase.circOut});
+        case NONE: {}
     }
   }
 
@@ -88,4 +91,5 @@ class SUSButton extends FlxSprite {
 
 enum CallEffect {
   NORMAL(fudu:Float);
+  NONE;
 }
