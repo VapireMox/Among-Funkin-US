@@ -116,7 +116,7 @@ class MainMenuState extends MusicBeatState {
 		  }
 		  buttons.add(button);
 
-      button.clickCallback = () -> {
+      button.clickCallback = (sb:FlxTween) -> {
         switch(buttonName) {
           case "SM":
             canSelected = false;
