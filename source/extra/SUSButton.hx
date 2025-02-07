@@ -39,12 +39,16 @@ class SUSButton extends FlxSprite {
 
     if(overlapFromMouse()) {
       outed = true;
-      if(FlxG.mouse.justPressed) {
-        onMouseDown(this);
-      }
       if(overed) {
         onMouseOver(this);
         overed = false;
+      }
+
+      if(FlxG.mouse.justPressed) {
+        onMouseDown(this);
+      }
+      if(FlxG.mouse.justReleased) {
+        onMouseUp(this);
       }
     }else {
       overed = true;
@@ -63,8 +67,16 @@ class SUSButton extends FlxSprite {
   private function onMouseDown(obj:FlxSprite) {
     switch(this.callEffect) {
         case NORMAL(fudu):
-          FlxTween.tween(scale, {x: defaultScale.x - scaleNB, y: defaultScale.y - scaleNB}, 0.08, {ease: FlxEase.quadIn, onComplete: huiTang});
+          FlxTween.tween(scale, {x: defaultScale.x - scaleNB, y: defaultScale.y - scaleNB}, 0.08, {ease: FlxEase.quadIn});
         case NONE: {}
+    }
+  }
+
+  private function onMouseUp(obj:FlxSprite) {
+    switch(this.callEffect) {
+      case NORMAL(fudu):
+        FlxTween.tween(scale, {x: defaultScale.x, y: defaultScale.y}, 0.08, {ease: FlxEase.quadOut, onComplete: clickCallback});
+      case NONE: {}
     }
   }
 
@@ -82,10 +94,6 @@ class SUSButton extends FlxSprite {
           FlxTween.tween(scale, {x: defaultScale.x, y: defaultScale.y}, 0.12, {ease: FlxEase.circOut});
         case NONE: {}
     }
-  }
-
-  private function huiTang(tween:FlxTween) {
-    FlxTween.tween(scale, {x: defaultScale.x, y: defaultScale.y}, 0.08, {ease: FlxEase.quadOut, onComplete: clickCallback});
   }
 }
 
