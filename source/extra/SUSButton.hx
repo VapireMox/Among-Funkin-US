@@ -13,7 +13,7 @@ class SUSButton extends FlxSprite {
 
   public var defaultScale:FlxPoint = FlxPoint.get(1, 1);
 
-  public var clickCallback:Void->Void = null;
+  public var clickCallback:FlxTween->Void = null;
 
   private var callEffect:CallEffect;
 
