@@ -13,10 +13,7 @@ class StateHScript {
   var expr:Expr;
   var code:String;
 
-  @:isVar var origin(get, never):String;
-  @:noCompletion private function get_origin():String {
-    return expr != null ? expr.origin : "hscript";
-  }
+  var origin:String = "hscript";
 
   private var parent:Dynamic;
   private var parentInstanceField:Array<String>;
@@ -33,7 +30,8 @@ class StateHScript {
       setClField();
     }
 
-    expr = parser.parseString(code, cl != null ? Type.getClassName(Type.getClass(cl)) : null);
+    if(Type.getClassName(Type.getClass(cl)) != null) origin = Type.getClassName(Type.getClass(cl));
+    expr = parser.parseString(code, origin);
   }
 
   public function execute() {
@@ -74,6 +72,7 @@ class StateHScript {
     for(fieldName in parentInstanceField) {
       interp.variables.set(fieldName, Reflect.field(parent, fieldName));
     }
+    set("this", parent);
   }
 
   private function errorMessage(message:String) {
