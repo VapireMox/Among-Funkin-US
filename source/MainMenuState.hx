@@ -7,6 +7,7 @@ import flixel.FlxSprite;
 import flixel.group.FlxGroup;
 import flixel.group.FlxSpriteGroup;
 import flixel.tweens.FlxTween;
+import flixel.math.FlxMath;
 
 @:access(extra.SUSButton)
 class MainMenuState extends MusicBeatState {
@@ -40,7 +41,7 @@ class MainMenuState extends MusicBeatState {
 		canSelected = true;
     
 	  starrySky = new FlxBackdrop(Paths.image("mainmenu/StarrySky"));
-	  starrySky.setGraphicSize(FlxG.width, FlxG.height);
+	  starrySky.setGraphicSize(FlxG.width + 2, FlxG.height);
 	  add(starrySky);
 	
 	  susPeople = new FlxGroup();
@@ -48,33 +49,46 @@ class MainMenuState extends MusicBeatState {
 	  add(susPeople);
 
 	  bg = new FlxSprite().loadGraphic(Paths.image("mainmenu/panelBG"));
-	  bg.setGraphicSize(FlxG.width, FlxG.height);
+	  bg.setGraphicSize(FlxG.width + 2, FlxG.height);
 	  bg.updateHitbox();
+    bg.scrollFactor.set();
 	  add(bg);
 	
 	  blank = new FlxSprite(-65, 81).loadGraphic(Paths.image("mainmenu/blank"));
 	  blank.scale.set(0.333, 0.333);
 	  blank.updateHitbox();
+    blank.scrollFactor.set();
 	  add(blank);
 	
 	  charTopState = new FlxSprite(-8, -50).loadGraphic(Paths.image("mainmenu/CharTopState"));
 	  charTopState.scale.set(0.264, 0.2);
 	  charTopState.updateHitbox();
+    charTopState.scrollFactor.set();
 	  add(charTopState);
 	
 	  logo = new FlxSprite(FlxG.width, -25).loadGraphic(Paths.image("mainmenu/MainLOGO"));
 	  logo.scale.set(0.15, 0.15);
 	  logo.updateHitbox();
+    logo.scrollFactor.set(0.1, 0.1);
 	  logo.x -= logo.width;
 	  add(logo);
 	
 	  buttons = new FlxTypedSpriteGroup<SUSButton>(blank.x + 92.5, blank.y + 85);
 	  createButtons();
+    buttons.scrollFactor.set();
 	  add(buttons);
   }
 
   public override function update(elapsed:Float) {
 	  super.update(elapsed);
+
+    var fudu:Float = 2.5;
+    if(canSelected) {
+      FlxG.camera.scroll.x = FlxMath.lerp(FlxG.camera.scroll.x, (FlxG.mouse.screenX - FlxG.width / 2) * (fudu / (FlxG.width / 2)), 0.1);
+      FlxG.camera.scroll.y = FlxMath.lerp(FlxG.camera.scroll.y, (FlxG.mouse.screenY - FlxG.height / 2) * (fudu / (FlxG.height / 2)), 0.1);
+
+      logo.y = -25 + (Math.sin((Conductor.songPosition / 1000) / Math.PI) * 5);
+    }
 	  
 	  starrySky.x += elapsed * 2;
   }
@@ -103,20 +117,24 @@ class MainMenuState extends MusicBeatState {
 		  buttons.add(button);
 
       button.clickCallback = () -> {
-				canSelected = false;
         switch(buttonName) {
           case "SM":
+            canSelected = false;
             MusicBeatState.switchState(new StoryMenuState());
           case "FP":
+            canSelected = false;
             MusicBeatState.switchState(new FreeplayState());
           case "OS":
+            canSelected = false;
             MusicBeatState.switchState(new options.OptionsState());
           case "LE":
+            canSelected = false;
             MusicBeatState.switchState(new TitleState());
           case "CS":
+            canSelected = false;
             MusicBeatState.switchState(new CreditsState());
           default: 
-            lime.app.Application.current.window.alert("Feature Not Free", "error");
+            lime.app.Application.current.window.alert("暂未开饭", "error");
         }
       }; 
 	  }
