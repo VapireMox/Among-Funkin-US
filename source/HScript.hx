@@ -6,6 +6,8 @@ import hscript.Interp;
 import hscript.Expr;
 #end
 
+import FunkinLua;
+
 class HScript
 {
   public static var defaultVariables:Map<String, Dynamic> = [
