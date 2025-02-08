@@ -38,13 +38,12 @@ class HScript
 
 	public var variables(get, never):Map<String, Dynamic>;
 
-	public function get_variables()
-	{
+	@:noCompletion private function get_variables():Map<String, Dynamic> {
 		#if hscript
-    return (interp != null ? interp.variables : []);
-    #elseif
-    return [];
-    #end
+		return interp.variables;
+		#end
+
+		return null;
 	}
 
   #if hscript
@@ -59,7 +58,7 @@ class HScript
 		interp = setupInterp();
 	}
 
-  public function load():Dynamic {}
+  public function load():Dynamic {return null;}
 
   public function createFromPath(path:String) {}
 
