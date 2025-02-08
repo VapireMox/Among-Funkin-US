@@ -38,7 +38,11 @@ class HScript
 
 	public function get_variables()
 	{
-		return #if hscript interp.variables #elseif [] #end;
+		#if hscript
+    return (interp != null ? interp.variables : []);
+    #elseif
+    return [];
+    #end
 	}
 
   #if hscript
