@@ -32,8 +32,7 @@ import openfl.utils.Assets;
 import flixel.math.FlxMath;
 import flixel.util.FlxSave;
 import flixel.addons.transition.FlxTransitionableState;
-import shaders.flixel.system.FlxShader;
-import extra.FunkinScript;
+import flixel.system.FlxAssets.FlxShader;
 
 #if (!flash && sys)
 import flixel.addons.display.FlxRuntimeShader;
@@ -54,22 +53,13 @@ import hscript.Interp;
 import hscript.Expr;
 #end
 
-#if DISCORD_ALLOWED
+#if desktop
 import Discord;
 #end
 
-#if android
-import android.widget.Toast as AndroidToast;
-import android.Tools as AndroidTools;
-//import android.os.BatteryManager as AndroidBatteryManager;
-import android.PsychJNI;
-#end
-
-import mobile.TouchUtil;
-
 using StringTools;
 
-class FunkinLua extends FunkinScript {
+class FunkinLua {
 	public static var Function_Stop:Dynamic = 1;
 	public static var Function_Continue:Dynamic = 0;
 	public static var Function_StopLua:Dynamic = 2;
@@ -79,6 +69,7 @@ class FunkinLua extends FunkinScript {
 	public var lua:State = null;
 	#end
 	public var camTarget:FlxCamera;
+	public var scriptName:String = '';
 	public var closed:Bool = false;
 
 	#if hscript
@@ -86,8 +77,6 @@ class FunkinLua extends FunkinScript {
 	#end
 	
 	public function new(script:String) {
-		super(script);
-		
 		#if LUA_ALLOWED
 		lua = LuaL.newstate();
 		LuaL.openlibs(lua);
@@ -101,8 +90,9 @@ class FunkinLua extends FunkinScript {
 			var result:Dynamic = LuaL.dofile(lua, script);
 			var resultStr:String = Lua.tostring(lua, result);
 			if(resultStr != null && result != 0) {
-				#if (desktop || mobile)
-				CoolUtil.showPopUp(resultStr, 'Error on lua script!');
+				trace('Error on lua script! ' + resultStr);
+				#if windows
+				lime.app.Application.current.window.alert(resultStr, 'Error on lua script!');
 				#else
 				luaTrace('Error loading lua script: "$script"\n' + resultStr, true, false, FlxColor.RED);
 				#end
@@ -113,6 +103,7 @@ class FunkinLua extends FunkinScript {
 			trace(e);
 			return;
 		}
+		scriptName = script;
 		initHaxeModule();
 
 		trace('lua file loaded succesfully:' + script);
@@ -231,8 +222,6 @@ class FunkinLua extends FunkinScript {
 		set('buildTarget', 'browser');
 		#elseif android
 		set('buildTarget', 'android');
-		#elseif ios
-		set('buildTarget', 'ios');
 		#else
 		set('buildTarget', 'unknown');
 		#end
@@ -1421,30 +1410,15 @@ class FunkinLua extends FunkinScript {
 
 		Lua_helper.add_callback(lua, "keyboardJustPressed", function(name:String)
 		{
-			return switch (name.toUpperCase()) {
-			case "SPACE":
-				MusicBeatState.getState().mobileControls.buttonExtra.justPressed || Reflect.getProperty(FlxG.keys.justPressed, "SPACE");
-			default:
-				Reflect.getProperty(FlxG.keys.justPressed, name);
-			}
+			return Reflect.getProperty(FlxG.keys.justPressed, name);
 		});
 		Lua_helper.add_callback(lua, "keyboardPressed", function(name:String)
 		{
-			return switch (name.toUpperCase()) {
-			case "SPACE":
-				MusicBeatState.getState().mobileControls.buttonExtra.pressed || Reflect.getProperty(FlxG.keys.pressed, "SPACE");
-			default:
-				Reflect.getProperty(FlxG.keys.pressed, name);
-			}
+			return Reflect.getProperty(FlxG.keys.pressed, name);
 		});
 		Lua_helper.add_callback(lua, "keyboardReleased", function(name:String)
 		{
-			return switch (name.toUpperCase()) {
-			case "SPACE":
-				MusicBeatState.getState().mobileControls.buttonExtra.justReleased || Reflect.getProperty(FlxG.keys.justReleased, "SPACE");
-			default:
-				Reflect.getProperty(FlxG.keys.justReleased, name);
-			}
+			return Reflect.getProperty(FlxG.keys.justReleased, name);
 		});
 
 		Lua_helper.add_callback(lua, "anyGamepadJustPressed", function(name:String)
@@ -1508,7 +1482,7 @@ class FunkinLua extends FunkinScript {
 
 		Lua_helper.add_callback(lua, "keyJustPressed", function(name:String) {
 			var key:Bool = false;
-			switch(name.toLowerCase()) {
+			switch(name) {
 				case 'left': key = PlayState.instance.getControl('NOTE_LEFT_P');
 				case 'down': key = PlayState.instance.getControl('NOTE_DOWN_P');
 				case 'up': key = PlayState.instance.getControl('NOTE_UP_P');
@@ -1517,29 +1491,29 @@ class FunkinLua extends FunkinScript {
 				case 'back': key = PlayState.instance.getControl('BACK');
 				case 'pause': key = PlayState.instance.getControl('PAUSE');
 				case 'reset': key = PlayState.instance.getControl('RESET');
-				case 'space': key = MusicBeatState.getState().mobileControls.buttonExtra.justPressed || FlxG.keys.justPressed.SPACE;//an extra key for convinience
+				case 'space': key = FlxG.keys.justPressed.SPACE;//an extra key for convinience
 			}
 			return key;
 		});
 		Lua_helper.add_callback(lua, "keyPressed", function(name:String) {
 			var key:Bool = false;
-			switch(name.toLowerCase()) {
+			switch(name) {
 				case 'left': key = PlayState.instance.getControl('NOTE_LEFT');
 				case 'down': key = PlayState.instance.getControl('NOTE_DOWN');
 				case 'up': key = PlayState.instance.getControl('NOTE_UP');
 				case 'right': key = PlayState.instance.getControl('NOTE_RIGHT');
-				case 'space': key = MusicBeatState.getState().mobileControls.buttonExtra.pressed || FlxG.keys.pressed.SPACE;//an extra key for convinience
+				case 'space': key = FlxG.keys.pressed.SPACE;//an extra key for convinience
 			}
 			return key;
 		});
 		Lua_helper.add_callback(lua, "keyReleased", function(name:String) {
 			var key:Bool = false;
-			switch(name.toLowerCase()) {
+			switch(name) {
 				case 'left': key = PlayState.instance.getControl('NOTE_LEFT_R');
 				case 'down': key = PlayState.instance.getControl('NOTE_DOWN_R');
 				case 'up': key = PlayState.instance.getControl('NOTE_UP_R');
 				case 'right': key = PlayState.instance.getControl('NOTE_RIGHT_R');
-				case 'space': key =  MusicBeatState.getState().mobileControls.buttonExtra.justReleased || FlxG.keys.justReleased.SPACE;//an extra key for convinience
+				case 'space': key = FlxG.keys.justReleased.SPACE;//an extra key for convinience
 			}
 			return key;
 		});
@@ -2348,7 +2322,7 @@ class FunkinLua extends FunkinScript {
 		});
 
 		Lua_helper.add_callback(lua, "changePresence", function(details:String, state:Null<String>, ?smallImageKey:String, ?hasStartTimestamp:Bool, ?endTimestamp:Float) {
-			#if DISCORD_ALLOWED
+			#if desktop
 			DiscordClient.changePresence(details, state, smallImageKey, hasStartTimestamp, endTimestamp);
 			#end
 		});
@@ -2785,7 +2759,7 @@ class FunkinLua extends FunkinScript {
 			var list:Array<String> = [];
 			#if sys
 			if(FileSystem.exists(folder)) {
-				for (folder in Paths.readDirectory(folder)) {
+				for (folder in FileSystem.readDirectory(folder)) {
 					if (!list.contains(folder)) {
 						list.push(folder);
 					}
@@ -2794,360 +2768,6 @@ class FunkinLua extends FunkinScript {
 			#end
 			return list;
 		});
-
-		Lua_helper.add_callback(lua, 'mobileC', Controls.instance.mobileC);
-
-		Lua_helper.add_callback(lua, 'mobileControlsMode', () -> {
-			switch (mobile.MobileData.mode)
-			{
-				case 0:
-					return 'left';
-				case 1:
-					return 'right';
-				case 2:
-					return 'custom';
-				case 3:
-					return 'hitbox';
-				default:
-					return 'none';
-			}
-		});
-
-		Lua_helper.add_callback(lua, "extraButtonPressed", (button:String) ->
-		{
-			button = button.toLowerCase();
-			if (MusicBeatState.getState().mobileControls != null)
-			{
-				switch (button)
-				{
-					case 'second':
-						return MusicBeatState.getState().mobileControls.buttonExtra2.pressed;
-					default:
-						return MusicBeatState.getState().mobileControls.buttonExtra.pressed;
-				}
-			}
-			return false;
-		});
-
-		Lua_helper.add_callback(lua, "extraButtonJustPressed", (button:String) ->
-		{
-			button = button.toLowerCase();
-			if (MusicBeatState.getState().mobileControls != null)
-			{
-				switch (button)
-				{
-					case 'second':
-						return MusicBeatState.getState().mobileControls.buttonExtra2.justPressed;
-					default:
-						return MusicBeatState.getState().mobileControls.buttonExtra.justPressed;
-				}
-			}
-			return false;
-		});
-
-		Lua_helper.add_callback(lua, "extraButtonJustReleased", (button:String) ->
-		{
-			button = button.toLowerCase();
-			if (MusicBeatState.getState().mobileControls != null)
-			{
-				switch (button)
-				{
-					case 'second':
-						return MusicBeatState.getState().mobileControls.buttonExtra2.justReleased;
-					default:
-						return MusicBeatState.getState().mobileControls.buttonExtra.justReleased;
-				}
-			}
-			return false;
-		});
-
-		Lua_helper.add_callback(lua, "extraButtonReleased", (button:String) ->
-		{
-			button = button.toLowerCase();
-			if (MusicBeatState.getState().mobileControls != null)
-			{
-				switch (button)
-				{
-					case 'second':
-						return MusicBeatState.getState().mobileControls.buttonExtra2.released;
-					default:
-						return MusicBeatState.getState().mobileControls.buttonExtra.released;
-				}
-			}
-			return false;
-		});
-
-		Lua_helper.add_callback(lua, "vibrate", (?duration:Int, ?period:Int) ->
-		{
-			if (duration == null)
-				return luaTrace('vibrate: No duration specified.');
-			else if (period == null)
-				period = 0;
-			return lime.ui.Haptic.vibrate(period, duration);
-		});
-
-		Lua_helper.add_callback(lua, "addTouchPad", (DPadMode:String, ActionMode:String, ?addToCustomSubstate:Bool = false, ?posAtCustomSubstate:Int = -1) ->
-		{
-			PlayState.instance.makeLuaTouchPad(DPadMode, ActionMode);
-			if (addToCustomSubstate)
-			{
-				if (PlayState.instance.luaTouchPad != null || !PlayState.instance.members.contains(PlayState.instance.luaTouchPad))
-					CustomSubstate.insertLuaTpad(posAtCustomSubstate);
-			}
-			else
-				PlayState.instance.addLuaTouchPad();
-		});
-
-		Lua_helper.add_callback(lua, "removeTouchPad", () ->
-		{
-			PlayState.instance.removeLuaTouchPad();
-		});
-
-		Lua_helper.add_callback(lua, "addTouchPadCamera", () ->
-		{
-			if (PlayState.instance.luaTouchPad == null)
-			{
-				luaTrace('addTouchPadCamera: Touch Pad does not exist.');
-				return;
-			}
-			PlayState.instance.addLuaTouchPadCamera();
-		});
-
-		Lua_helper.add_callback(lua, "touchPadJustPressed", function(button:Dynamic):Bool
-		{
-			if (PlayState.instance.luaTouchPad == null)
-			{
-				return false;
-			}
-			return PlayState.instance.luaTouchPadJustPressed(button);
-		});
-
-		Lua_helper.add_callback(lua, "touchPadPressed", function(button:Dynamic):Bool
-		{
-			if (PlayState.instance.luaTouchPad == null)
-			{
-				return false;
-			}
-			return PlayState.instance.luaTouchPadPressed(button);
-		});
-
-		Lua_helper.add_callback(lua, "touchPadJustReleased", function(button:Dynamic):Bool
-		{
-			if (PlayState.instance.luaTouchPad == null)
-			{
-				return false;
-			}
-			return PlayState.instance.luaTouchPadJustReleased(button);
-		});
-
-		Lua_helper.add_callback(lua, "touchPadReleased", function(button:Dynamic):Bool
-		{
-			if (PlayState.instance.luaTouchPad == null)
-			{
-				return false;
-			}
-			return PlayState.instance.luaTouchPadReleased(button);
-		});
-
-		Lua_helper.add_callback(lua, "touchJustPressed", TouchUtil.justPressed);
-		Lua_helper.add_callback(lua, "touchPressed", TouchUtil.pressed);
-		Lua_helper.add_callback(lua, "touchJustReleased", TouchUtil.justReleased);
-		Lua_helper.add_callback(lua, "touchReleased", TouchUtil.released);
-		Lua_helper.add_callback(lua, "touchPressedObject", function(object:String, ?camera:String):Bool
-		{
-			var obj = PlayState.instance.getLuaObject(object);
-			var cam:FlxCamera = cameraFromString(camera);
-			if (obj == null)
-			{
-				luaTrace('touchPressedObject: $object does not exist.');
-				return false;
-			}
-			return TouchUtil.overlaps(obj, cam) && TouchUtil.pressed;
-		});
-
-		Lua_helper.add_callback(lua, "touchJustPressedObject", function(object:String, ?camera:String):Bool
-		{
-			var obj = PlayState.instance.getLuaObject(object);
-			var cam:FlxCamera = cameraFromString(camera);
-			if (obj == null)
-			{
-				luaTrace('touchJustPressedObject: $object does not exist.');
-				return false;
-			}
-			return TouchUtil.overlaps(obj, cam) && TouchUtil.justPressed;
-		});
-
-		Lua_helper.add_callback(lua, "touchJustReleasedObject", function(object:String, ?camera:String):Bool
-		{
-			var obj = PlayState.instance.getLuaObject(object);
-			var cam:FlxCamera = cameraFromString(camera);
-			if (obj == null)
-			{
-				luaTrace('touchJustReleasedObject: $object does not exist.');
-				return false;
-			}
-			return TouchUtil.overlaps(obj, cam) && TouchUtil.justReleased;
-		});
-
-		Lua_helper.add_callback(lua, "touchReleasedObject", function(object:String, ?camera:String):Bool
-		{
-			var obj = PlayState.instance.getLuaObject(object);
-			var cam:FlxCamera = cameraFromString(camera);
-			if (obj == null)
-			{
-				luaTrace('touchReleasedObject: $object does not exist.');
-				return false;
-			}
-			return TouchUtil.overlaps(obj, cam) && TouchUtil.released;
-		});
-
-		Lua_helper.add_callback(lua, "touchPressedObjectComplex", function(object:String, ?camera:String):Bool
-		{
-			var obj = PlayState.instance.getLuaObject(object);
-			var cam:FlxCamera = cameraFromString(camera);
-			if (obj == null)
-			{
-				luaTrace('touchPressedObjectComplex: $object does not exist.');
-				return false;
-			}
-			return TouchUtil.overlapsComplex(obj, cam) && TouchUtil.pressed;
-		});
-
-		Lua_helper.add_callback(lua, "touchJustPressedObjectComplex", function(object:String, ?camera:String):Bool
-		{
-			var obj = PlayState.instance.getLuaObject(object);
-			var cam:FlxCamera = cameraFromString(camera);
-			if (obj == null)
-			{
-				luaTrace('touchJustPressedObjectComplex: $object does not exist.');
-				return false;
-			}
-			return TouchUtil.overlapsComplex(obj, cam) && TouchUtil.justPressed;
-		});
-
-		Lua_helper.add_callback(lua, "touchJustReleasedObjectComplex", function(object:String, ?camera:String):Bool
-		{
-			var obj = PlayState.instance.getLuaObject(object);
-			var cam:FlxCamera = cameraFromString(camera);
-			if (obj == null)
-			{
-				luaTrace('touchJustReleasedObjectComplex: $object does not exist.');
-				return false;
-			}
-			return TouchUtil.overlapsComplex(obj, cam) && TouchUtil.justReleased;
-		});
-
-		Lua_helper.add_callback(lua, "touchReleasedObjectComplex", function(object:String, ?camera:String):Bool
-		{
-			var obj = PlayState.instance.getLuaObject(object);
-			var cam:FlxCamera = cameraFromString(camera);
-			if (obj == null)
-			{
-				luaTrace('touchReleasedObjectComplex: $object does not exist.');
-				return false;
-			}
-			return TouchUtil.overlapsComplex(obj, cam) && TouchUtil.released;
-		});
-
-		Lua_helper.add_callback(lua, "touchOverlapsObject", function(object:String, ?camera:String):Bool
-		{
-			var obj = PlayState.instance.getLuaObject(object);
-			var cam:FlxCamera = cameraFromString(camera);
-			if (obj == null)
-			{
-				luaTrace('touchOverlapsObject: $object does not exist.');
-				return false;
-			}
-			return TouchUtil.overlaps(obj, cam);
-		});
-
-		Lua_helper.add_callback(lua, "touchOverlapsObjectComplex", function(object:String, ?camera:String):Bool
-		{
-			var obj = PlayState.instance.getLuaObject(object);
-			var cam:FlxCamera = cameraFromString(camera);
-			if (obj == null)
-			{
-				luaTrace('touchOverlapsObjectComplex: $object does not exist.');
-				return false;
-			}
-			return TouchUtil.overlapsComplex(obj, cam);
-		});
-
-		#if android
-		//static var spicyPillow:AndroidBatteryManager = new AndroidBatteryManager();
-
-		//Lua_helper.add_callback(lua, "isRooted", AndroidTools.isRooted());
-		Lua_helper.add_callback(lua, "isDolbyAtmos", AndroidTools.isDolbyAtmos());
-		Lua_helper.add_callback(lua, "isAndroidTV", AndroidTools.isAndroidTV());
-		Lua_helper.add_callback(lua, "isTablet", AndroidTools.isTablet());
-		Lua_helper.add_callback(lua, "isChromebook", AndroidTools.isChromebook());
-		Lua_helper.add_callback(lua, "isDeXMode", AndroidTools.isDeXMode());
-		//Lua_helper.add_callback(lua, "isCharging", spicyPillow.isCharging());
-
-		Lua_helper.add_callback(lua, "backJustPressed", FlxG.android.justPressed.BACK);
-		Lua_helper.add_callback(lua, "backPressed", FlxG.android.pressed.BACK);
-		Lua_helper.add_callback(lua, "backJustReleased", FlxG.android.justReleased.BACK);
-
-		Lua_helper.add_callback(lua, "menuJustPressed", FlxG.android.justPressed.MENU);
-		Lua_helper.add_callback(lua, "menuPressed", FlxG.android.pressed.MENU);
-		Lua_helper.add_callback(lua, "menuJustReleased", FlxG.android.justReleased.MENU);
-
-		Lua_helper.add_callback(lua, "getCurrentOrientation", () -> PsychJNI.getCurrentOrientationAsString());
-		Lua_helper.add_callback(lua, "setOrientation", function(hint:Null<String>):Void
-		{
-			switch (hint.toLowerCase())
-			{
-				case 'portrait':
-					hint = 'Portrait';
-				case 'portraitupsidedown' | 'upsidedownportrait' | 'upsidedown':
-					hint = 'PortraitUpsideDown';
-				case 'landscapeleft' | 'leftlandscape':
-					hint = 'LandscapeLeft';
-				case 'landscaperight' | 'rightlandscape' | 'landscape':
-					hint = 'LandscapeRight';
-				default:
-					hint = null;
-			}
-			if (hint == null)
-				return luaTrace('setOrientation: No orientation specified.');
-			PsychJNI.setOrientation(FlxG.stage.stageWidth, FlxG.stage.stageHeight, false, hint);
-		});
-
-		Lua_helper.add_callback(lua, "minimizeWindow", () -> AndroidTools.minimizeWindow());
-
-		Lua_helper.add_callback(lua, "showToast", function(text:String, duration:Null<Int>, ?xOffset:Null<Int>, ?yOffset:Null<Int>) //, ?gravity:Null<Int>
-		{
-			if (text == null)
-				return luaTrace('showToast: No text specified.');
-			else if (duration == null)
-				return luaTrace('showToast: No duration specified.');
-
-			if (xOffset == null)
-				xOffset = 0;
-			if (yOffset == null)
-				yOffset = 0;
-
-			AndroidToast.makeText(text, duration, -1, xOffset, yOffset);
-		});
-
-		Lua_helper.add_callback(lua, "isScreenKeyboardShown", () -> PsychJNI.isScreenKeyboardShown());
-
-		Lua_helper.add_callback(lua, "clipboardHasText", () -> PsychJNI.clipboardHasText());
-		Lua_helper.add_callback(lua, "clipboardGetText", () -> PsychJNI.clipboardGetText());
-		Lua_helper.add_callback(lua, "clipboardSetText", function(text:Null<String>):Void
-		{
-			if (text != null) return luaTrace('clipboardSetText: No text specified.');
-			PsychJNI.clipboardSetText(text);
-		});
-
-		Lua_helper.add_callback(lua, "manualBackButton", () -> PsychJNI.manualBackButton());
-
-		Lua_helper.add_callback(lua, "setActivityTitle", function(text:Null<String>):Void
-		{
-			if (text != null) return luaTrace('setActivityTitle: No text specified.');
-			PsychJNI.setActivityTitle(text);
-		});
-		#end
 
 		call('onCreate', []);
 		#end
@@ -3533,7 +3153,7 @@ class FunkinLua extends FunkinScript {
 	}
 
 	var lastCalledFunction:String = '';
-	public override function call(func:String, args:Array<Dynamic>):Dynamic {
+	public function call(func:String, args:Array<Dynamic>):Dynamic {
 		#if LUA_ALLOWED
 		if(closed) return Function_Continue;
 
@@ -3639,7 +3259,7 @@ class FunkinLua extends FunkinScript {
 		return "unknown";
 	}
 
-	public override function set(variable:String, data:Dynamic) {
+	public function set(variable:String, data:Dynamic) {
 		#if LUA_ALLOWED
 		if(lua == null) {
 			return;
@@ -3760,22 +3380,6 @@ class CustomSubstate extends MusicBeatSubstate
 		PlayState.instance.callOnLuas('onCustomSubstateDestroy', [name]);
 		super.destroy();
 	}
-
-	public static function insertLuaTpad(?pos:Int = -1)
-	{
-		if(instance != null)
-		{
-			var tagObject:FlxObject = PlayState.instance.luaTouchPad;
-
-			if(tagObject != null)
-			{
-				if(pos < 0) instance.add(tagObject);
-				else instance.insert(pos, tagObject);
-				return true;
-			}
-		}
-		return false;
-	}
 }
 
 #if hscript
@@ -3813,8 +3417,6 @@ class HScript
 		#end
 		interp.variables.set('ShaderFilter', openfl.filters.ShaderFilter);
 		interp.variables.set('StringTools', StringTools);
-		interp.variables.set('SUtil', StorageUtil); // for people who are dummy
-		interp.variables.set('StorageUtil', StorageUtil);
 
 		interp.variables.set('setVar', function(name:String, value:Dynamic)
 		{
