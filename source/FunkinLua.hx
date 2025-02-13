@@ -79,7 +79,6 @@ class FunkinLua extends FunkinScript {
 	public var lua:State = null;
 	#end
 	public var camTarget:FlxCamera;
-	public var scriptName:String = '';
 	public var closed:Bool = false;
 
 	#if hscript
@@ -114,7 +113,6 @@ class FunkinLua extends FunkinScript {
 			trace(e);
 			return;
 		}
-		scriptName = script;
 		initHaxeModule();
 
 		trace('lua file loaded succesfully:' + script);
