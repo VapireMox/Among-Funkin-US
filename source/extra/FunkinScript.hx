@@ -5,14 +5,15 @@ import haxe.ds.StringMap;
 
 class FunkinScript {
   public static function getProcessedFields(parent:FunkinScript):Map<String, Dynamic> {
-    var sb:StringMap = new StringMap();
-    sb.set("psychEngineVersion", MainMenuState.psychEngineVersion);
+    var sb:Map<String, Dynamic> = [
+      "psychEngineVersion" => MainMenuState.psychEngineVersion
+    ];
 
     return sb;
   }
   
   public var scriptName:String;
-  public var sctiptExtension:String;
+  public var scriptExtension:String;
   public var path:String;
   public var directory:String;
   
