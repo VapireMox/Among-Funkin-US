@@ -33,6 +33,7 @@ import flixel.math.FlxMath;
 import flixel.util.FlxSave;
 import flixel.addons.transition.FlxTransitionableState;
 import shaders.flixel.system.FlxShader;
+import extra.FunkinScript;
 
 #if (!flash && sys)
 import flixel.addons.display.FlxRuntimeShader;
@@ -68,7 +69,7 @@ import mobile.TouchUtil;
 
 using StringTools;
 
-class FunkinLua {
+class FunkinLua extends FunkinScript {
 	public static var Function_Stop:Dynamic = 1;
 	public static var Function_Continue:Dynamic = 0;
 	public static var Function_StopLua:Dynamic = 2;
@@ -86,6 +87,8 @@ class FunkinLua {
 	#end
 	
 	public function new(script:String) {
+		super(script);
+		
 		#if LUA_ALLOWED
 		lua = LuaL.newstate();
 		LuaL.openlibs(lua);
@@ -3532,7 +3535,7 @@ class FunkinLua {
 	}
 
 	var lastCalledFunction:String = '';
-	public function call(func:String, args:Array<Dynamic>):Dynamic {
+	public override function call(func:String, args:Array<Dynamic>):Dynamic {
 		#if LUA_ALLOWED
 		if(closed) return Function_Continue;
 
@@ -3638,7 +3641,7 @@ class FunkinLua {
 		return "unknown";
 	}
 
-	public function set(variable:String, data:Dynamic) {
+	public override function set(variable:String, data:Dynamic) {
 		#if LUA_ALLOWED
 		if(lua == null) {
 			return;
