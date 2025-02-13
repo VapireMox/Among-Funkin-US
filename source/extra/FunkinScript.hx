@@ -24,19 +24,19 @@ class FunkinScript {
     directory = Path.directory(path);
   }
 
-  public function set(name:String):Void {
+  public function set(name:String, val:Dynamic) {
   }
 
-  public function get(name:String, val:Dynamic):Dynamic {
+  public function get(name:String):Dynamic {
     return null;
   }
 
-  public function call(name:String, ?args:Dynamic):Dynamic {
+  public function call(name:String, ?args:Array<Dynamic>):Dynamic {
     return null;
   }
 
   @:noCompletion
-  function toString():String {
+  private function toString():String {
     return '{Path: $path}';
   }
 }
